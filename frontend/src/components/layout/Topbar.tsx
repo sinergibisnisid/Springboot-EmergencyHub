@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Bell, Search, CheckCircle2, User } from 'lucide-react';
+import { Bell, Search, CheckCircle2, User, Sun, Moon } from 'lucide-react';
+import { useTheme } from '../../hooks/useTheme';
 
 interface TopbarProps {
   criticalCount: number;
@@ -8,6 +9,7 @@ interface TopbarProps {
 
 export default function Topbar({ criticalCount, activeAlarms }: TopbarProps) {
   const [time, setTime] = useState(new Date());
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const interval = setInterval(() => setTime(new Date()), 1000);
@@ -77,6 +79,18 @@ export default function Topbar({ criticalCount, activeAlarms }: TopbarProps) {
               {activeAlarms > 9 ? '9+' : activeAlarms}
             </span>
           )}
+        </button>
+
+        {/* Theme toggle */}
+        <button
+          onClick={toggleTheme}
+          className="p-2 rounded-lg hover:bg-[var(--color-bg-hover)] transition-colors cursor-pointer"
+          title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+        >
+          {theme === 'dark'
+            ? <Sun className="w-[18px] h-[18px] text-[var(--color-text-secondary)]" />
+            : <Moon className="w-[18px] h-[18px] text-[var(--color-text-secondary)]" />
+          }
         </button>
 
         {/* Separator */}
