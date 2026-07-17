@@ -15,7 +15,6 @@ export default function Login() {
     setError('');
     setLoading(true);
 
-    // Simulate login (matches backend in-memory users)
     await new Promise(r => setTimeout(r, 800));
 
     if ((username === 'operator' && password === 'operator123') ||
@@ -30,36 +29,36 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[var(--color-bg-primary)] p-4">
-      {/* Background gradient effect */}
+      {/* Subtle gradient orbs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-[var(--color-brand)] opacity-[0.03] blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-[var(--color-info)] opacity-[0.03] blur-3xl" />
+        <div className="absolute top-1/3 left-1/3 w-[500px] h-[500px] rounded-full bg-[var(--color-brand)] opacity-[0.02] blur-[120px]" />
+        <div className="absolute bottom-1/3 right-1/3 w-[400px] h-[400px] rounded-full bg-[var(--color-info)] opacity-[0.015] blur-[100px]" />
       </div>
 
-      <div className="relative w-full max-w-md animate-slide-up">
-        {/* Logo section */}
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 rounded-2xl bg-[var(--color-brand)] flex items-center justify-center mx-auto mb-4 shadow-lg shadow-[var(--color-brand)]/20">
-            <Shield className="w-8 h-8 text-white" />
+      <div className="relative w-full max-w-sm animate-slide-up">
+        {/* Logo */}
+        <div className="text-center mb-10">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[var(--color-brand)] to-[var(--color-brand-dark)] flex items-center justify-center mx-auto mb-5 shadow-lg shadow-[var(--color-brand)]/10">
+            <Shield className="w-7 h-7 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">Emergency Hub</h1>
-          <p className="text-sm text-[var(--color-text-muted)] mt-1">
+          <h1 className="text-2xl font-bold text-[var(--color-text-primary)] tracking-tight">Emergency Hub</h1>
+          <p className="text-[13px] text-[var(--color-text-muted)] mt-1">
             Interkoneksi Sarana Proteksi Kedaruratan
           </p>
-          <p className="text-xs text-[var(--color-text-muted)] mt-0.5">
+          <p className="text-[11px] text-[var(--color-text-muted)] mt-0.5">
             PT Pupuk Kujang
           </p>
         </div>
 
         {/* Login card */}
-        <div className="rounded-2xl bg-[var(--color-bg-secondary)] border border-[var(--color-border-light)] p-8 shadow-2xl">
-          <h2 className="text-lg font-semibold text-[var(--color-text-primary)] mb-6">
+        <div className="rounded-2xl bg-[var(--color-bg-card)] border border-[var(--color-border)] p-7">
+          <h2 className="text-base font-semibold text-[var(--color-text-primary)] mb-6">
             Masuk ke Command Center
           </h2>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1.5">
+              <label className="block text-[12px] font-medium text-[var(--color-text-secondary)] mb-2 uppercase tracking-wider">
                 Username
               </label>
               <input
@@ -67,15 +66,15 @@ export default function Login() {
                 value={username}
                 onChange={e => setUsername(e.target.value)}
                 placeholder="operator"
-                className="w-full px-4 py-2.5 text-sm rounded-lg bg-[var(--color-bg-primary)] border border-[var(--color-border)]
+                className="w-full px-4 py-2.5 text-sm rounded-lg bg-[var(--color-bg-input)] border border-[var(--color-border)]
                   text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)]
-                  focus:outline-none focus:border-[var(--color-border-focus)] transition-colors"
+                  focus:outline-none focus:border-[var(--color-brand)] transition-colors"
                 autoFocus
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-1.5">
+              <label className="block text-[12px] font-medium text-[var(--color-text-secondary)] mb-2 uppercase tracking-wider">
                 Password
               </label>
               <div className="relative">
@@ -84,9 +83,9 @@ export default function Login() {
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full px-4 py-2.5 pr-10 text-sm rounded-lg bg-[var(--color-bg-primary)] border border-[var(--color-border)]
+                  className="w-full px-4 py-2.5 pr-10 text-sm rounded-lg bg-[var(--color-bg-input)] border border-[var(--color-border)]
                     text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)]
-                    focus:outline-none focus:border-[var(--color-border-focus)] transition-colors"
+                    focus:outline-none focus:border-[var(--color-brand)] transition-colors"
                 />
                 <button
                   type="button"
@@ -99,7 +98,7 @@ export default function Login() {
             </div>
 
             {error && (
-              <p className="text-sm text-[var(--color-critical)] bg-[var(--color-critical-bg)] px-3 py-2 rounded-lg">
+              <p className="text-sm text-[var(--color-critical)] bg-[var(--color-critical-dim)] px-3 py-2 rounded-lg">
                 {error}
               </p>
             )}
@@ -107,17 +106,17 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading || !username || !password}
-              className="w-full py-2.5 text-sm font-bold rounded-lg bg-[var(--color-brand)] text-white
+              className="w-full py-2.5 text-sm font-semibold rounded-lg bg-[var(--color-brand)] text-white
                 hover:bg-[var(--color-brand-light)] transition-colors cursor-pointer
-                disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled:opacity-40 disabled:cursor-not-allowed"
             >
               {loading ? 'Memproses...' : 'Masuk'}
             </button>
           </form>
 
           <div className="mt-6 pt-4 border-t border-[var(--color-border)]">
-            <p className="text-xs text-[var(--color-text-muted)] text-center">
-              Default login: <code className="text-[var(--color-brand-light)]">operator</code> / <code className="text-[var(--color-brand-light)]">operator123</code>
+            <p className="text-[11px] text-[var(--color-text-muted)] text-center">
+              Default: <code className="text-[var(--color-brand)]">operator</code> / <code className="text-[var(--color-brand)]">operator123</code>
             </p>
           </div>
         </div>

@@ -5,11 +5,11 @@ export default function ZoneOverview() {
   return (
     <div className="space-y-6 animate-fade-in">
       <div>
-        <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">Zone Overview</h1>
-        <p className="text-sm text-[var(--color-text-muted)]">Status semua zona area pabrik PT Pupuk Kujang</p>
+        <h1 className="text-[28px] font-bold text-[var(--color-text-primary)] tracking-tight">Zone Overview</h1>
+        <p className="text-sm text-[var(--color-text-muted)] mt-0.5">Status semua zona area pabrik PT Pupuk Kujang</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {mockZones.map(zone => {
           const zoneDevices = mockDevices.filter(d => d.zoneId === zone.id);
           const zoneAlarms = mockAlarms.filter(a => a.zoneId === zone.id);
@@ -17,7 +17,7 @@ export default function ZoneOverview() {
             <ZoneCard
               key={zone.id}
               zone={zone}
-              deviceCount={zoneDevices.length}
+              devices={zoneDevices}
               alarms={zoneAlarms}
             />
           );

@@ -1,92 +1,112 @@
-import type { Zone, Alarm } from '../../types';
-import { MapPin, AlertTriangle, AlertCircle, CheckCircle2 } from 'lucide-react';
+import type { Zone, Alarm, Device } from '../../types';
+import { MapPin, AlertTriangle, CheckCircle2 } from 'lucide-react';
 
 interface ZoneCardProps {
   zone: Zone;
-  deviceCount: number;
+  devices: Device[];
   alarms: Alarm[];
 }
 
-export default function ZoneCard({ zone, deviceCount, alarms }: ZoneCardProps) {
+export default function ZoneCard({ zone, devices, alarms }: ZoneCardProps) {
   const activeAlarms = alarms.filter(a => a.status === 'ACTIVE');
   const criticalCount = activeAlarms.filter(a => a.severity === 'CRITICAL' || a.severity === 'EMERGENCY').length;
   const warningCount = activeAlarms.filter(a => a.severity === 'WARNING').length;
+  const onlineCount = devices.filter(d => d.status === 'ONLINE').length;
+  const totalDevices = devices.length;
+  const onlinePercent = totalDevices > 0 ? (onlineCount / totalDevices) * 100 : 0;
 
-  const worstSeverity = criticalCount > 0 ? 'CRITICAL' : warningCount > 0 ? 'WARNING' : 'NORMAL';
-
-  const borderColor: Record<string, string> = {
-    CRITICAL: 'border-[var(--color-critical)] shadow-[0_0_15px_rgba(255,23,68,0.15)]',
-    WARNING: 'border-[var(--color-warning)]',
-    NORMAL: 'border-[var(--color-border)]',
-  };
-
-  const glowClass = worstSeverity === 'CRITICAL' ? 'animate-pulse-glow' : '';
+  const hasCritical = criticalCount > 0;
+  const hasWarning = warningCount > 0;
 
   return (
     <div
-      className={`rounded-xl bg-[var(--color-bg-secondary)] border-2 p-4
-        ${borderColor[worstSeverity]} ${glowClass}
-        hover:bg-[var(--color-bg-tertiary)] transition-all duration-200`}
+      className={`rounded-xl bg-[var(--color-bg-card)] border p-5 hover:bg-[var(--color-bg-elevated)] transition-all duration-200
+        ${hasCritical
+          ? 'border-l-[3px] border-l-[var(--color-critical)] border-t-[var(--color-border)] border-r-[var(--color-border)] border-b-[var(--color-border)]'
+          : hasWarning
+            ? 'border-l-[3px] border-l-[var(--color-warning)] border-t-[var(--color-border)] border-r-[var(--color-border)] border-b-[var(--color-border)]'
+            : 'border-[var(--color-border)]'
+        }`}
     >
       {/* Header */}
-      <div className="flex items-center gap-2 mb-3">
-        <div className={`p-1.5 rounded-lg ${
-          worstSeverity === 'CRITICAL' ? 'bg-[var(--color-critical-bg)]' :
-          worstSeverity === 'WARNING' ? 'bg-[var(--color-warning-bg)]' :
-          'bg-[var(--color-normal-bg)]'
-        }`}>
-          <MapPin className={`w-4 h-4 ${
-            worstSeverity === 'CRITICAL' ? 'text-[var(--color-critical)]' :
-            worstSeverity === 'WARNING' ? 'text-[var(--color-warning)]' :
-            'text-[var(--color-normal)]'
-          }`} />
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2.5">
+          <MapPin className="w-4 h-4 text-[var(--color-text-muted)]" />
+          <div>
+            <h3 className="text-sm font-semibold text-[var(--color-text-primary)]">{zone.name}</h3>
+            <p className="text-[11px] text-[var(--color-text-muted)]">{zone.description}</p>
+          </div>
         </div>
-        <div>
-          <h3 className="text-sm font-bold text-[var(--color-text-primary)]">{zone.name}</h3>
-          <p className="text-[10px] text-[var(--color-text-muted)]">{zone.description}</p>
-        </div>
-      </div>
-
-      {/* Stats */}
-      <div className="grid grid-cols-3 gap-2 mb-2">
-        <div className="text-center p-2 rounded-lg bg-[var(--color-bg-primary)]">
-          <p className="tabular text-lg font-bold text-[var(--color-text-primary)]">{deviceCount}</p>
-          <p className="text-[10px] text-[var(--color-text-muted)]">Devices</p>
-        </div>
-        <div className={`text-center p-2 rounded-lg ${criticalCount > 0 ? 'bg-[var(--color-critical-bg)]' : 'bg-[var(--color-bg-primary)]'}`}>
-          <p className={`tabular text-lg font-bold ${criticalCount > 0 ? 'text-[var(--color-critical)]' : 'text-[var(--color-text-muted)]'}`}>
-            {criticalCount}
-          </p>
-          <p className="text-[10px] text-[var(--color-text-muted)] flex items-center justify-center gap-0.5">
-            <AlertTriangle className="w-2.5 h-2.5" /> Critical
-          </p>
-        </div>
-        <div className={`text-center p-2 rounded-lg ${warningCount > 0 ? 'bg-[var(--color-warning-bg)]' : 'bg-[var(--color-bg-primary)]'}`}>
-          <p className={`tabular text-lg font-bold ${warningCount > 0 ? 'text-[var(--color-warning)]' : 'text-[var(--color-text-muted)]'}`}>
-            {warningCount}
-          </p>
-          <p className="text-[10px] text-[var(--color-text-muted)] flex items-center justify-center gap-0.5">
-            <AlertCircle className="w-2.5 h-2.5" /> Warning
-          </p>
-        </div>
-      </div>
-
-      {/* Status indicator */}
-      <div className="flex items-center gap-1.5">
-        {worstSeverity === 'NORMAL' ? (
-          <>
-            <CheckCircle2 className="w-3.5 h-3.5 text-[var(--color-normal)]" />
-            <span className="text-xs text-[var(--color-normal)]">All Normal</span>
-          </>
-        ) : (
-          <>
-            <AlertTriangle className={`w-3.5 h-3.5 ${worstSeverity === 'CRITICAL' ? 'text-[var(--color-critical)]' : 'text-[var(--color-warning)]'}`} />
-            <span className={`text-xs font-semibold ${worstSeverity === 'CRITICAL' ? 'text-[var(--color-critical)]' : 'text-[var(--color-warning)]'}`}>
-              {activeAlarms.length} Active Alarm{activeAlarms.length > 1 ? 's' : ''}
-            </span>
-          </>
+        {activeAlarms.length === 0 && (
+          <CheckCircle2 className="w-4 h-4 text-[var(--color-normal)]" />
         )}
       </div>
+
+      {/* Device progress bar */}
+      <div className="mb-4">
+        <div className="flex items-center justify-between mb-1.5">
+          <span className="text-[11px] text-[var(--color-text-muted)]">Devices</span>
+          <span className="tabular text-[11px] font-medium text-[var(--color-text-secondary)]">
+            {onlineCount} / {totalDevices} Online
+          </span>
+        </div>
+        <div className="h-1.5 rounded-full bg-[var(--color-bg-primary)] overflow-hidden">
+          <div
+            className="h-full rounded-full transition-all duration-500"
+            style={{
+              width: `${onlinePercent}%`,
+              background: onlinePercent === 100 ? 'var(--color-normal)' : 'var(--color-warning)',
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Device dots */}
+      <div className="flex items-center gap-1 mb-4">
+        {devices.map(d => (
+          <span
+            key={d.id}
+            className="w-2 h-2 rounded-full"
+            title={`${d.name}: ${d.status}`}
+            style={{
+              background: d.status === 'ONLINE'
+                ? 'var(--color-normal)'
+                : d.status === 'FAULT'
+                  ? 'var(--color-warning)'
+                  : 'var(--color-offline)',
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Alarm summary */}
+      {activeAlarms.length > 0 ? (
+        <div className="pt-3 border-t border-[var(--color-border)] space-y-1.5">
+          {criticalCount > 0 && (
+            <div className="flex items-center gap-2 text-xs">
+              <AlertTriangle className="w-3 h-3 text-[var(--color-critical)]" />
+              <span className="text-[var(--color-critical)] font-medium">
+                {criticalCount} Critical
+              </span>
+            </div>
+          )}
+          {warningCount > 0 && (
+            <div className="flex items-center gap-2 text-xs">
+              <AlertTriangle className="w-3 h-3 text-[var(--color-warning)]" />
+              <span className="text-[var(--color-warning)] font-medium">
+                {warningCount} Warning
+              </span>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="pt-3 border-t border-[var(--color-border)]">
+          <div className="flex items-center gap-1.5 text-xs text-[var(--color-normal)]">
+            <CheckCircle2 className="w-3 h-3" />
+            All Normal
+          </div>
+        </div>
+      )}
     </div>
   );
 }

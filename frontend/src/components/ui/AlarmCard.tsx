@@ -28,55 +28,44 @@ export default function AlarmCard({ alarm, onAcknowledge, onResolve, compact = f
   const isActive = alarm.status === 'ACTIVE';
   const StatusIcon = statusIcon[alarm.status];
 
-  const severityBorder: Record<string, string> = {
-    CRITICAL: 'border-l-[var(--color-critical)]',
-    EMERGENCY: 'border-l-[var(--color-critical)]',
-    WARNING: 'border-l-[var(--color-warning)]',
-    INFO: 'border-l-[var(--color-normal)]',
-  };
-
   return (
     <>
       <div
-        className={`rounded-xl bg-[var(--color-bg-secondary)] border border-[var(--color-border)] border-l-4 
-          ${severityBorder[alarm.severity] || 'border-l-[var(--color-info)]'}
-          ${isCritical && isActive ? 'animate-pulse-glow' : ''}
-          hover:bg-[var(--color-bg-tertiary)] transition-all duration-200 animate-slide-up`}
+        className={`rounded-xl bg-[var(--color-bg-card)] border border-[var(--color-border)] 
+          ${isCritical && isActive ? 'border-l-[3px] border-l-[var(--color-critical)]' : ''}
+          ${!isCritical && isActive ? 'border-l-[3px] border-l-[var(--color-warning)]' : ''}
+          hover:bg-[var(--color-bg-elevated)] transition-colors duration-200`}
       >
-        <div className={compact ? 'p-3' : 'p-4'}>
+        <div className={compact ? 'p-3.5' : 'p-5'}>
           {/* Header */}
           <div className="flex items-start justify-between gap-3 mb-2">
-            <div className="flex-1 min-w-0">
-              <h3 className={`font-semibold text-[var(--color-text-primary)] leading-tight ${compact ? 'text-sm' : 'text-base'}`}>
-                {alarm.title}
-              </h3>
-            </div>
+            <h3 className={`font-semibold text-[var(--color-text-primary)] leading-snug ${compact ? 'text-[13px]' : 'text-sm'}`}>
+              {alarm.title}
+            </h3>
             <StatusBadge severity={alarm.severity} size={compact ? 'sm' : 'md'} />
           </div>
 
           {/* Description */}
-          {!compact && (
-            <p className="text-sm text-[var(--color-text-secondary)] mb-3 line-clamp-2">
+          {!compact && alarm.description && (
+            <p className="text-[13px] text-[var(--color-text-secondary)] mb-3 leading-relaxed">
               {alarm.description}
             </p>
           )}
 
           {/* Meta */}
-          <div className="flex items-center gap-3 text-xs text-[var(--color-text-muted)] mb-3">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-[var(--color-text-muted)] mb-3">
             {alarm.zoneName && (
               <span className="flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-brand)]"></span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-brand)]" />
                 {alarm.zoneName}
               </span>
             )}
-            {alarm.deviceName && (
-              <span>{alarm.deviceName}</span>
-            )}
+            {alarm.deviceName && <span>{alarm.deviceName}</span>}
             <span className="tabular">
               {formatDistanceToNow(new Date(alarm.createdAt), { addSuffix: true, locale: localeId })}
             </span>
             {StatusIcon && (
-              <span className="flex items-center gap-1 text-[var(--color-text-muted)]">
+              <span className="flex items-center gap-1">
                 <StatusIcon className="w-3 h-3" />
                 {alarm.status}
               </span>
@@ -85,12 +74,12 @@ export default function AlarmCard({ alarm, onAcknowledge, onResolve, compact = f
 
           {/* Actions */}
           {isActive && (onAcknowledge || onResolve) && (
-            <div className="flex gap-2">
+            <div className="flex gap-2 pt-2">
               {onAcknowledge && (
                 <button
                   onClick={() => setShowAckDialog(true)}
-                  className="px-4 py-2 text-sm font-semibold rounded-lg bg-[var(--color-warning)] text-[var(--color-text-inverse)]
-                    hover:opacity-90 transition-opacity cursor-pointer"
+                  className="px-3.5 py-1.5 text-[12px] font-semibold rounded-lg border border-[var(--color-warning)] text-[var(--color-warning)]
+                    hover:bg-[var(--color-warning-dim)] transition-colors cursor-pointer"
                 >
                   Acknowledge
                 </button>
@@ -98,8 +87,8 @@ export default function AlarmCard({ alarm, onAcknowledge, onResolve, compact = f
               {onResolve && (
                 <button
                   onClick={() => setShowResolveDialog(true)}
-                  className="px-4 py-2 text-sm font-semibold rounded-lg bg-[var(--color-brand)] text-white
-                    hover:opacity-90 transition-opacity cursor-pointer"
+                  className="px-3.5 py-1.5 text-[12px] font-semibold rounded-lg border border-[var(--color-brand)] text-[var(--color-brand)]
+                    hover:bg-[var(--color-brand-dim)] transition-colors cursor-pointer"
                 >
                   Resolve
                 </button>
@@ -109,11 +98,10 @@ export default function AlarmCard({ alarm, onAcknowledge, onResolve, compact = f
         </div>
       </div>
 
-      {/* Confirm dialogs */}
       <ConfirmDialog
         open={showAckDialog}
         title="Acknowledge Alarm?"
-        description={`Anda akan meng-acknowledge alarm: "${alarm.title}". Aksi ini menandakan operator sudah mengetahui alarm ini.`}
+        description={`Anda akan meng-acknowledge alarm: "${alarm.title}".`}
         confirmLabel="Ya, Acknowledge"
         confirmColor="warning"
         onConfirm={() => { onAcknowledge?.(alarm.id); setShowAckDialog(false); }}
@@ -122,7 +110,7 @@ export default function AlarmCard({ alarm, onAcknowledge, onResolve, compact = f
       <ConfirmDialog
         open={showResolveDialog}
         title="Resolve Alarm?"
-        description={`Anda akan menyelesaikan alarm: "${alarm.title}". Pastikan kondisi sudah aman sebelum resolve.`}
+        description={`Anda akan menyelesaikan alarm: "${alarm.title}". Pastikan kondisi sudah aman.`}
         confirmLabel="Ya, Resolve"
         confirmColor="success"
         onConfirm={() => { onResolve?.(alarm.id); setShowResolveDialog(false); }}

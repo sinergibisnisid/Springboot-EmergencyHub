@@ -9,20 +9,16 @@ export default function AppLayout() {
   const criticalCount = activeAlarms.filter(a => a.severity === 'CRITICAL' || a.severity === 'EMERGENCY').length;
 
   return (
-    <div className="flex min-h-screen">
-      {/* Sidebar */}
+    <div className="flex min-h-screen bg-[var(--color-bg-primary)]">
       <Sidebar />
 
-      {/* Main Content */}
-      <div className="flex-1 ml-[260px] flex flex-col min-h-screen transition-all duration-300">
+      <div className="flex-1 ml-[240px] flex flex-col min-h-screen transition-all duration-300">
         <Topbar criticalCount={criticalCount} activeAlarms={activeAlarms.length} />
 
-        {/* Page Content */}
-        <main className="flex-1 p-6 overflow-y-auto">
+        <main className="flex-1 p-8 overflow-y-auto">
           <Outlet />
         </main>
 
-        {/* Event Ticker */}
         <EventTicker events={mockEvents} />
       </div>
     </div>
