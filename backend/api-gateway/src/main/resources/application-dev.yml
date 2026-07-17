@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/emergencyhub_dev
+    username: ehub
+    password: ehub_dev_pass
+  jpa:
+    show-sql: true
+
+emergencyhub:
+  mqtt:
+    enabled: false
+  notification:
+    email:
+      enabled: false
+    whatsapp:
+      enabled: false
+
+logging:
+  level:
+    id.co.sinergi.emergencyhub: DEBUG

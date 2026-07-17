@@ -1,0 +1,73 @@
+spring:
+  application:
+    name: emergency-hub
+
+  # Database
+  datasource:
+    url: jdbc:postgresql://localhost:5432/emergencyhub
+    username: ehub
+    password: ehub_dev_pass
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+
+  # Flyway
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+  # Mail (disabled by default for dev)
+  mail:
+    host: localhost
+    port: 1025
+
+# Server
+server:
+  port: 8080
+
+# SpringDoc / Swagger
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: method
+
+# Emergency Hub Custom Config
+emergencyhub:
+  # Modbus polling interval
+  polling:
+    interval-ms: 2000
+
+  # MQTT
+  mqtt:
+    enabled: false
+    broker-url: tcp://localhost:1883
+    client-id: emergency-hub-${random.uuid}
+    topic: devices/+/data
+    qos: 1
+
+  # Notifications
+  notification:
+    email:
+      enabled: false
+      from: noreply@emergencyhub.local
+      to: operator@emergencyhub.local
+    whatsapp:
+      enabled: false
+
+# Logging
+logging:
+  level:
+    id.co.sinergi.emergencyhub: DEBUG
+    org.springframework.web.socket: INFO
+    org.flywaydb: INFO

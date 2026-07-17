@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: emergency-hub-simulator
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+
+# Simulator Config
+simulator:
+  modbus:
+    port: 5020
+    unit-id: 1
+    dynamic: true
+    fault-interval-seconds: 10
+
+  mqtt:
+    enabled: true
+    broker-url: tcp://localhost:1883
+    publish-interval-seconds: 5
+
+# Logging
+logging:
+  level:
+    id.co.sinergi.emergencyhub.simulator: INFO
+    com.ghgande.j2mod: WARN
+    org.eclipse.paho: WARN

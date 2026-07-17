@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/emergencyhub_test
+    username: ehub
+    password: ehub_test_pass
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  flyway:
+    enabled: false
+
+emergencyhub:
+  mqtt:
+    enabled: false
+  notification:
+    email:
+      enabled: false
+    whatsapp:
+      enabled: false
