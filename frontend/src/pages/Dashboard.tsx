@@ -88,10 +88,10 @@ export default function Dashboard() {
       </div>
 
       {/* ── Alarm Trend + Active Alarms ──────────────────── */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Chart — 2 cols */}
-        <div className="lg:col-span-2">
-          <AlarmTrendChart data={trendData} labels={trendLabels} height={140} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        {/* Chart */}
+        <div>
+          <AlarmTrendChart data={trendData} labels={trendLabels} height={160} />
         </div>
 
         {/* Active Alarms — 1 col */}
@@ -127,7 +127,7 @@ export default function Dashboard() {
           <span className="section-label">Zone Overview</span>
           <span className="text-xs text-[var(--color-text-muted)]">{mockZones.length} zones</span>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {mockZones.map(zone => {
             const zoneDevices = mockDevices.filter(d => d.zoneId === zone.id);
             const zoneAlarms = alarms.filter(a => a.zoneId === zone.id);
@@ -144,12 +144,12 @@ export default function Dashboard() {
       </div>
 
       {/* ── Bottom Row: Wind + Recent Events ──────────────── */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         {/* Wind */}
         <WindCompass data={mockWindData} />
 
         {/* Recent Events */}
-        <div className="lg:col-span-3">
+        <div className="lg:col-span-2">
           <div className="flex items-center justify-between mb-3">
             <span className="section-label">Recent Events</span>
             <span className="text-xs text-[var(--color-text-muted)]">{mockEvents.length} events</span>

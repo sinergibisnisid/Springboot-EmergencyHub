@@ -9,7 +9,7 @@ export default function ZoneOverview() {
         <p className="text-sm text-[var(--color-text-muted)] mt-0.5">Status semua zona area pabrik PT Pupuk Kujang</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {mockZones.map(zone => {
           const zoneDevices = mockDevices.filter(d => d.zoneId === zone.id);
           const zoneAlarms = mockAlarms.filter(a => a.zoneId === zone.id);
