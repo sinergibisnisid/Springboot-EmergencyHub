@@ -1,6 +1,5 @@
 package id.co.sinergi.emergencyhub.simulator.modbus;
 
-import com.ghgande.j2mod.modbus.ModbusCoupler;
 import com.ghgande.j2mod.modbus.procimg.SimpleDigitalIn;
 import com.ghgande.j2mod.modbus.procimg.SimpleDigitalOut;
 import com.ghgande.j2mod.modbus.procimg.SimpleInputRegister;
