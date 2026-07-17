@@ -12,10 +12,11 @@ export default function AppLayout() {
     <div className="flex min-h-screen bg-[var(--color-bg-primary)]">
       <Sidebar />
 
-      <div className="flex-1 ml-[240px] flex flex-col min-h-screen transition-all duration-300">
+      {/* Main area: min-w-0 prevents flex child from overflowing, overflow-x-hidden as safety net */}
+      <div className="flex-1 min-w-0 ml-[240px] flex flex-col min-h-screen overflow-x-hidden">
         <Topbar criticalCount={criticalCount} activeAlarms={activeAlarms.length} />
 
-        <main className="flex-1 p-8 overflow-y-auto">
+        <main className="flex-1 p-6 overflow-y-auto overflow-x-hidden">
           <Outlet />
         </main>
 

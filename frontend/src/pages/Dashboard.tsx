@@ -154,8 +154,8 @@ export default function Dashboard() {
             <span className="section-label">Recent Events</span>
             <span className="text-xs text-[var(--color-text-muted)]">{mockEvents.length} events</span>
           </div>
-          <div className="rounded-xl bg-[var(--color-bg-card)] border border-[var(--color-border)] overflow-hidden">
-            <table className="w-full text-sm">
+          <div className="rounded-xl bg-[var(--color-bg-card)] border border-[var(--color-border)] overflow-x-auto">
+            <table className="w-full text-sm table-fixed">
               <thead>
                 <tr className="border-b border-[var(--color-border)]">
                   <th className="text-left px-4 py-3 section-label">Time</th>
