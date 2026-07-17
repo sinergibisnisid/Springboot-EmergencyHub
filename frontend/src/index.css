@@ -1,0 +1,174 @@
+@import "tailwindcss";
+
+/* ============================================================
+   EMERGENCY HUB — Command Center Design System
+   Tailwind CSS v4 (CSS-first config)
+   ============================================================ */
+
+@theme {
+  /* ---- Background Layers (Dark Navy) ---- */
+  --color-bg-primary: #0F1620;
+  --color-bg-secondary: #151E2D;
+  --color-bg-tertiary: #1A2538;
+  --color-bg-elevated: #1F2D42;
+  --color-bg-hover: #243447;
+
+  /* ---- Brand: PT Pupuk Kujang ---- */
+  --color-brand: #2E7D32;
+  --color-brand-light: #4CAF50;
+  --color-brand-dark: #1B5E20;
+  --color-brand-glow: #66BB6A;
+
+  /* ---- Status Colors ---- */
+  --color-critical: #FF1744;
+  --color-critical-dim: #B71C1C;
+  --color-critical-bg: rgba(255, 23, 68, 0.12);
+  --color-warning: #FF9100;
+  --color-warning-dim: #E65100;
+  --color-warning-bg: rgba(255, 145, 0, 0.12);
+  --color-normal: #69F0AE;
+  --color-normal-dim: #2E7D32;
+  --color-normal-bg: rgba(105, 240, 174, 0.08);
+  --color-info: #40C4FF;
+  --color-info-bg: rgba(64, 196, 255, 0.10);
+  --color-offline: #78909C;
+  --color-offline-bg: rgba(120, 144, 156, 0.10);
+
+  /* ---- Text ---- */
+  --color-text-primary: #ECEFF1;
+  --color-text-secondary: #90A4AE;
+  --color-text-muted: #546E7A;
+  --color-text-inverse: #0F1620;
+
+  /* ---- Border ---- */
+  --color-border: rgba(255, 255, 255, 0.06);
+  --color-border-light: rgba(255, 255, 255, 0.10);
+  --color-border-focus: #4CAF50;
+
+  /* ---- Font ---- */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+
+  /* ---- Sidebar ---- */
+  --sidebar-width: 260px;
+  --sidebar-collapsed: 72px;
+  --topbar-height: 64px;
+}
+
+/* ============================================================
+   GLOBAL STYLES
+   ============================================================ */
+
+html {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* ---- Scrollbar (dark theme) ---- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-bg-hover);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
+@keyframes pulse-critical {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(255, 23, 68, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(255, 23, 68, 0.6), 0 0 40px rgba(255, 23, 68, 0.2); }
+}
+
+@keyframes slide-in-right {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ---- Utility classes for animations ---- */
+@utility animate-pulse-critical {
+  animation: pulse-critical 1.5s ease-in-out infinite;
+}
+
+@utility animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@utility animate-slide-in {
+  animation: slide-in-right 0.3s ease-out;
+}
+
+@utility animate-slide-up {
+  animation: slide-up 0.4s ease-out;
+}
+
+@utility animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+@utility animate-ticker {
+  animation: ticker-scroll 30s linear infinite;
+}
+
+/* ---- Glass effect ---- */
+@utility glass {
+  background: rgba(21, 30, 45, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-border);
+}
+
+@utility glass-light {
+  background: rgba(26, 37, 56, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--color-border-light);
+}
+
+/* ---- Tabular numbers for data displays ---- */
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono);
+}
